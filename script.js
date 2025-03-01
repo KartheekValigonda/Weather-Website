@@ -31,13 +31,24 @@ async function fetchWeatherData(location = currentLocation) {
         }
 
         currentLocation = normalizedLocation;
-        displayCurrentWeather(weatherData);
-        displayHourlyForecast(forecastData);
-        displayFiveDayForecast(forecastData);
+        displayWeatherData(weatherData, forecastData);
     } catch (error) {
         console.error('Error fetching weather data:', error);
         alert("An error occurred while fetching weather data. Please try again later.");
     }
+}
+
+function displayWeatherData(weatherData, forecastData) {
+    const placeholder = document.getElementById('placeholder');
+    const weatherDataDiv = document.getElementById('weatherData');
+
+    // Hide placeholder and show weather data
+    placeholder.style.display = 'none';
+    weatherDataDiv.style.display = 'block';
+
+    displayCurrentWeather(weatherData);
+    displayHourlyForecast(forecastData);
+    displayFiveDayForecast(forecastData);
 }
 
 function displayCurrentWeather(data) {
@@ -51,6 +62,45 @@ function displayCurrentWeather(data) {
 
     const date = new Date();
     document.getElementById('time').textContent = `Updated: ${date.toLocaleTimeString()} | H:${Math.round(data.main.temp_max)}° | L:${Math.round(data.main.temp_min)}°`;
+
+    // Change background based on weather condition
+    updateBackground(data.weather[0].main);
+}
+
+function updateBackground(weatherCondition) {
+    const body = document.body;
+    // Remove existing weather classes
+    body.classList.remove('sunny', 'rainy', 'cloudy', 'snowy', 'foggy', 'thunderstorm');
+
+    // Determine the weather class based on the condition
+    let weatherClass = 'cloudy'; // Default to cloudy if condition isn’t matched
+    switch (weatherCondition.toLowerCase()) {
+        case 'clear':
+            weatherClass = 'sunny';
+            break;
+        case 'rain':
+        case 'drizzle':
+            weatherClass = 'rainy';
+            break;
+        case 'clouds':
+            weatherClass = 'cloudy';
+            break;
+        case 'snow':
+            weatherClass = 'snowy';
+            break;
+        case 'mist':
+        case 'haze':
+        case 'fog':
+            weatherClass = 'foggy';
+            break;
+        case 'thunderstorm':
+            weatherClass = 'thunderstorm';
+            break;
+        default:
+            weatherClass = 'cloudy';
+    }
+
+    body.classList.add(weatherClass);
 }
 
 function displayHourlyForecast(data) {
@@ -126,5 +176,8 @@ function handleSearch() {
     }
 }
 
-// Remove the initial prompt on page load
-// No window.onload function here, so the page loads without prompting the user
+// Initial state: Show placeholder, hide weather data
+window.onload = () => {
+    document.getElementById('placeholder').style.display = 'block';
+    document.getElementById('weatherData').style.display = 'none';
+};
