@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WeatherWave</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="weather-container">
+        <div class="weather-header">
+            <h1>WeatherWave</h1>
+            <div class="search-container">
+                <input type="text" id="locationInput" placeholder="Enter city name...">
+                <button onclick="handleSearch()">Search</button>
+            </div>
+        </div>
+        <div class="weather-content">
+            <div class="weather-card current-weather">
+                <h2 id="location">Delhi</h2>
+                <div class="temp-details">
+                    <p id="temperature">23°C</p>
+                    <img id="weatherIcon" src="" alt="Weather icon">
+                </div>
+                <p id="condition">Mist</p>
+                <p id="time">Updated: --:-- | H:--° | L:--°</p>
+                <div class="current-metrics">
+                    <p id="humidity">Humidity: --%</p>
+                    <p id="wind">Wind: -- m/s</p>
+                    <p id="pressure">Pressure: -- hPa</p>
+                </div>
+            </div>
+            <div class="weather-card hourly-forecast">
+                <h3>Hourly Forecast</h3>
+                <div class="hourly-grid" id="hourly"></div>
+            </div>
+            <div class="weather-card five-day-forecast">
+                <h3>5-Day Forecast</h3>
+                <div class="five-day-grid" id="fiveDay"></div>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
